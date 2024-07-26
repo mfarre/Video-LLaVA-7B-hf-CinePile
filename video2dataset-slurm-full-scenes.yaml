@@ -1,0 +1,39 @@
+subsampling:
+    CutDetectionSubsampler:
+        cuts_are_clips: False
+        args:
+            cut_detection_mode: "all"
+            framerates: null
+            threshold: 30
+            min_scene_len: 15
+
+reading:
+    yt_args:
+        download_size: 360
+        download_audio_rate: 44100
+        yt_metadata_args: None
+    timeout: 60
+    sampler: null
+
+storage:
+    number_sample_per_shard: 100
+    oom_shard_count: 5
+    captions_are_subtitles: False
+
+distribution:
+    #PLEASE ADJUST TO YOUR CASE
+    #processes_count: The number of processes used for downloading the dataset at the shard level. This is important to be high for performance.
+    #thread_count: The number of threads to use for processing samples (sample level).
+    #subjob_size: the number of shards to download in each subjob supporting it, a subjob can be a pyspark job for example
+    processes_count: 1
+    thread_count: 1
+    subjob_size: 20
+    distributor: "slurm"
+    distributor_args:
+        cpus_per_task: 8
+        job_name: "v2dsfull"
+        partition: ""
+        n_nodes: 5
+        tasks_per_node: 1
+        account: ""
+        cache_path: "/cinepile/.slurm_cache"
